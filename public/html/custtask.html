@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Customer Task Page</title>
+        <link rel='stylesheet' type='text/css' media='screen' href='css/style.css'>
+        <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+        <script src="https://js.stripe.com/v3/"></script>
+    </head>
+    <body>
+      <div>
+        <H1>Customer Task Page</H1>
+        <section>
+          <div class="product">
+            <img
+              src="images/tree.png"
+              alt="treephoto"
+            />
+            <div class="description">
+              <h3>Mat's Tree book</h3>
+              <h5>A$100.00</h5>
+            </div>
+          </div>
+          <form action="/create-checkout-session" method="POST">
+            <button type="submit" id="checkout-button">Checkout</button>
+          </form>
+        </section>
+        </div>
+    </body>
+</html>

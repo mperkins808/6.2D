@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+<title>Iservice Account Creation</title>
+<link rel='stylesheet' type='text/css' media='screen' href='css/main.css'>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> 
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<meta name="google-signin-client_id" content="999556684427-h8lrq3q89je323r9at5av268nuq8u3aa.apps.googleusercontent.com">
+<script>
+        var xhr = new window.XMLHttpRequest();
+</script>
+</head>
+<body>
+    <div class="signup-form">
+        <form action="/login" method="post">
+            <div class="row">
+                <div class="col"><p>Email</p><input type="text" id="email" class="form-control" name="emailLogin" required="required"></div>
+            </div>
+            <div class="row">
+                <div class="col"><p>Password</p><input type="text" class="form-control" name="passwordLogin" required="required"></div>
+            </div>
+            <div class="row">
+                <div class="col"><button class="form-control" name="login" value="2"> Login </button></div>
+            </div> <br>
+            <div class="row"><div class="col"><div id="my-signin2"></div></div>
+            </div>
+        </form>
+        <form action="/signup" method="post">
+            <div class="row">
+                <div class="col"><button class="form-control" name="signup" value="1"> Sign Up </button></div>
+            </div>
+        </form>
+    </div> 
+    <script>
+        function onSuccess(googleUser) {
+
+            var profile = googleUser.getBasicProfile();
+            var data = { "ID": profile.getId(), "fname": profile.getGivenName(), "sname":profile.getFamilyName(), "email":profile.getEmail()}
+            console.log(data);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    if (xhr.response == "account_created")
+                    {
+                        //If the user creates an account with google
+                        console.log(xhr.response)
+                        window.alert("Account created succesfully")
+                    }
+                    else
+                    {    
+                    //If the user logs in with google
+                    window.location.href = xhr.response;
+                    }
+                    }
+
+                }
+            xhr.open('POST', '/loginG', true);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.send(JSON.stringify(data));
+        }
+        function onFailure(error) {
+            console.log(error);
+            }
+        function renderButton() {
+            gapi.signin2.render('my-signin2', {
+                'scope': 'profile email',
+                'width': 240,
+                'height': 50,
+                'longtitle': true,
+                'theme': 'dark',
+                'onsuccess': onSuccess,
+                'onfailure': onFailure,
+                });
+            }
+    </script>
+
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+</body>
+</html>
